@@ -7,5 +7,6 @@ router.post('/register', doctorController.createUser);
 router.post('/login', doctorController.login);
 router.get('/logout', doctorController.logout);
 router.get('/profile', passport.authenticate('jwt', { session: false, failureRedirect: '/users/signin' }), doctorController.profile);
+router.post('/update', passport.authenticate('jwt', { session: false, failureRedirect: '/users/signin' }), doctorController.update);
 
 module.exports = router;

@@ -17,15 +17,17 @@ let cookieExtractor = function (req) {
 };
 
 opts.jwtFromRequest = cookieExtractor;
+opts.passReqToCallback = true;
 
-passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+passport.use(new JwtStrategy(opts, function (req, jwt_payload, done) {
     User.findById(new ObjectId(jwt_payload.user._id)).then(function (user) {
-        console.log('user',user);
         if (!user) {
+            req.flash('error', 'Unauthorized');
             return done(null, false);
         }
         return done(null, user);
     }).catch(function (err) {
+        req.flash('error', err);
         return done(err, false);
     });
 }));

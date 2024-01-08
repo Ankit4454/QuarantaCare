@@ -54,5 +54,19 @@ module.exports.logout = function (req, res) {
 }
 
 module.exports.profile = function (req, res) {
-    return res.send(req.user);
+    return res.render('profile', {
+        user: req.user
+    });
+}
+
+module.exports.update = function (req, res) {
+    if (req.user.id == req.body.id) {
+        User.findByIdAndUpdate(req.body.id, { userName: req.body.userName, email: req.body.email }).then(function (user) {
+            req.flash('success', 'Profile updated successfully');
+            return res.redirect('back');
+        }).catch(function (err) {
+            req.flash('error', err);
+            console.log(`Error while updating a user ${err}`);
+        });
+    }
 }
