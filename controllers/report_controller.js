@@ -2,7 +2,21 @@ const Report = require('../models/report');
 const puppeteer = require('puppeteer');
 
 module.exports.reportStatus = function (req, res) {
+    const query = req.params.status ? { status: req.params.status } : {};
 
+    Report.find(query).sort('-createdAt').populate('doctor patient').then(function(data){
+        if(req.xhr){
+            return res.status(200).json({
+                data: {
+                    reports: data
+                },
+                success: true
+            });
+        }
+    }).catch(function(err){
+        req.flash('error', err);
+        console.log(`Error while filtering reports ${err}`);
+    })
 }
 
 module.exports.viewReport = function (req, res) {
