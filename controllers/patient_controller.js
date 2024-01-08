@@ -2,6 +2,19 @@ const User = require('../models/user');
 const Report = require('../models/report');
 
 module.exports.register = function (req, res) {
+    const emailValidator = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneNumberValidator = /^\d{10}$/;
+
+    if (!emailValidator.test(req.body.email)) {
+        req.flash('error', 'Invalid email format');
+        return res.redirect('back');
+    }
+
+    if (!phoneNumberValidator.test(req.body.phoneNumber)) {
+        req.flash('error', 'Invalid phone number format. Please enter a valid phone number.');
+        return res.redirect('back');
+    }
+
     User.findOne({ phoneNumber: req.body.phoneNumber }).then(function (data) {
         if (!data) {
             User.create({ email: req.body.email, userName: req.body.userName, phoneNumber: req.body.phoneNumber, userType: 'Patient', createdByDoctor: req.user.id }).then(function (user) {

@@ -3,6 +3,19 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 module.exports.createUser = function (req, res) {
+    const emailValidator = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordValidator = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!emailValidator.test(req.body.email)) {
+        req.flash('error', 'Invalid email format');
+        return res.redirect('back');
+    }
+
+    if (!passwordValidator.test(req.body.password)) {
+        req.flash('error', 'Invalid password format. Password must have at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.');
+        return res.redirect('back');
+    }
+
     User.findOne({ email: req.body.email }).then(function (data) {
         if (!data) {
             User.create({ email: req.body.email, userName: req.body.userName, password: req.body.password, userType: 'Doctor' }).then(function (user) {

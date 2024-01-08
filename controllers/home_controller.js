@@ -34,6 +34,15 @@ module.exports.services = function (req, res) {
     res.render("services");
 }
 
-module.exports.contactUs = function (req, res) {
+module.exports.contact = function (req, res) {
     res.render("contact");
+}
+
+module.exports.contactUs = function (req, res) {
+    const emailValidator = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailValidator.test(req.body.email)) {
+        req.flash('error', 'Invalid email format');
+        return res.redirect('back');
+    }
 }
