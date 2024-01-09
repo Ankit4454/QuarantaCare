@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Report = require('../models/report');
+const ContactUsMailer = require('../mailers/contactUs_mailer');
 
 module.exports.home = function (req, res) {
     User.find({userType: 'Patient'}).sort('-createdAt').populate('createdByDoctor').then(function(patients){
@@ -45,4 +46,8 @@ module.exports.contactUs = function (req, res) {
         req.flash('error', 'Invalid email format');
         return res.redirect('back');
     }
+    ContactUsMailer.newContactUs(req.body);
+
+    req.flash('success', 'Your message has been sent successfully');
+    return res.redirect('back');
 }
