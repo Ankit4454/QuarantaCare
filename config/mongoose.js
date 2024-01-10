@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(`mongodb://localhost/QuarantaCare`);
+mongoose.connect(process.env.MONGODB_CONNECT_QC);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, `Error while connecting to MongoDB`));

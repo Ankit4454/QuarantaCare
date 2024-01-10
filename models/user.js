@@ -44,6 +44,15 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+userSchema.pre('findOneAndUpdate', async function (next) {
+    const update = this.getUpdate();
+    if (update.password) {
+        const saltRounds = 10;
+        update.password = hashSync(update.password, saltRounds);
+    }
+    next();
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

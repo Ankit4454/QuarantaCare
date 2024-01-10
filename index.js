@@ -20,7 +20,7 @@ app.set('layout extractScripts', true);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 app.use(session({
-	secret:'happy dog',
+	secret: process.env.SECRET_SESSION_QC,
 	saveUninitialized: true,
 	resave: true
 }));

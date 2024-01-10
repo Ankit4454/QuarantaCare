@@ -1,13 +1,13 @@
 const nodemailer = require('../config/nodemailer');
 
-exports.newContactUs = async (contact)=> {
+exports.newResetPassword = async (user)=> {
     try{
-        let htmlString = await nodemailer.renderTemplate({contact: contact}, '/new_contactUs.ejs');
+        let htmlString = await nodemailer.renderTemplate({user: user}, '/new_resetPassword.ejs');
 
         nodemailer.transporter.sendMail({
             from: process.env.EMAIL_QC,
-            to: contact.email,
-            subject: "QuarantaCare | Contact Us",
+            to: user.user.email,
+            subject: "QuarantaCare | Reset Password",
             html: htmlString
     
         }, (err, info)=> {

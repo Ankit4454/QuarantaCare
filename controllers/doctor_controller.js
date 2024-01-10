@@ -48,7 +48,7 @@ module.exports.login = function (req, res) {
             return res.redirect('back');
         }
 
-        const token = jwt.sign({ user }, 'secretJWT', { expiresIn: '1h' });
+        const token = jwt.sign({ user }, process.env.SECRET_JWT_QC, { expiresIn: '1h' });
         res.cookie('jwt', token, { httpOnly: true });
         req.flash('success', 'You have successfully logged in');
         return res.redirect('/');

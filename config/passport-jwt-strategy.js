@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 let opts = {}
-opts.secretOrKey = 'secretJWT';
+opts.secretOrKey = process.env.SECRET_JWT_QC;
 
 let cookieExtractor = function (req) {
     let token = null;

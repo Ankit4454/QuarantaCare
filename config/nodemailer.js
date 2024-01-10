@@ -8,8 +8,8 @@ const smtp = {
     port: 587,
     secure: false,
     auth:{
-        user: 'kanteliyaankit',
-        pass: 'fesanhwcztpykevi'
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD
     }
 }
 
